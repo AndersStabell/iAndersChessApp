@@ -16,6 +16,11 @@ class StockfishEngine: ObservableObject {
     private var threads = 1
     private var hash = 128 // MB
     
+    // AI Personality integration
+    @Published var currentPersonality: AIPersonality?
+    private var decisionEngine: AIDecisionEngine?
+    private var moveCount: Int = 0
+    
     @Published var isThinking = false
     @Published var evaluation: Double = 0.0
     @Published var bestLine: [String] = []
@@ -133,26 +138,88 @@ class StockfishEngine: ObservableObject {
             return nil
         }
         
-        // Simple move selection based on difficulty
-        let move: (from: ChessPosition, to: ChessPosition)
-        
-        switch skillLevel {
-        case 0...5:
-            // Beginner: Random moves
-            move = legalMoves.randomElement()!
-        case 6...10:
-            // Easy: Prefer captures
-            let captures = legalMoves.filter { chessEngine.board[$0.to.file][$0.to.rank] != nil }
-            move = captures.randomElement() ?? legalMoves.randomElement()!
-        case 11...15:
-            // Medium: Basic tactics
-            move = selectTacticalMove(from: legalMoves, engine: chessEngine) ?? legalMoves.randomElement()!
-        default:
-            // Hard: Best available move (simplified)
-            move = selectBestMove(from: legalMoves, engine: chessEngine)
+        // Update game state for personality engine
+        if let decisionEngine = decisionEngine {
+            decisionEngine.updateGameState(fen: fen, moveCount: moveCount)
         }
         
+        let move: (from: ChessPosition, to: ChessPosition)
+        
+        // Use personality-based decision making if available
+        if let personality = currentPersonality, let decisionEngine = decisionEngine {
+            // Adjust thinking time based on personality
+            let baseThinkingTime = 1.0
+            let personalityThinkingTime = decisionEngine.getThinkingTime(baseTime: baseThinkingTime)
+            
+            // Simulate thinking time
+            try? await Task.sleep(nanoseconds: UInt64(personalityThinkingTime * 0.5 * 1_000_000_000))
+            
+            move = selectPersonalityBasedMove(from: legalMoves, fen: fen, engine: chessEngine, decisionEngine: decisionEngine)
+        } else {
+            // Fallback to skill-based selection
+            switch skillLevel {
+            case 0...5:
+                // Beginner: Random moves
+                move = legalMoves.randomElement()!
+            case 6...10:
+                // Easy: Prefer captures
+                let captures = legalMoves.filter { chessEngine.board[$0.to.file][$0.to.rank] != nil }
+                move = captures.randomElement() ?? legalMoves.randomElement()!
+            case 11...15:
+                // Medium: Basic tactics
+                move = selectTacticalMove(from: legalMoves, engine: chessEngine) ?? legalMoves.randomElement()!
+            default:
+                // Hard: Best available move (simplified)
+                move = selectBestMove(from: legalMoves, engine: chessEngine)
+            }
+        }
+        
+        moveCount += 1
         return "\(move.from.algebraic)\(move.to.algebraic)"
+    }
+    
+    private func selectPersonalityBasedMove(
+        from legalMoves: [(from: ChessPosition, to: ChessPosition)],
+        fen: String,
+        engine: ChessEngine,
+        decisionEngine: AIDecisionEngine
+    ) -> (from: ChessPosition, to: ChessPosition) {
+        
+        // Convert moves to string format and evaluate each
+        var candidates: [String] = []
+        var evaluations: [Double] = []
+        
+        for move in legalMoves {
+            let moveString = "\(move.from.algebraic)\(move.to.algebraic)"
+            candidates.append(moveString)
+            
+            // Evaluate position after this move
+            let testEngine = ChessEngine()
+            testEngine.board = engine.board
+            testEngine.currentPlayer = engine.currentPlayer
+            
+            if testEngine.makeMove(from: move.from, to: move.to) {
+                let newFEN = testEngine.getFEN()
+                let baseEval = evaluatePositionSimple(newFEN)
+                let personalityEval = decisionEngine.evaluatePosition(newFEN, baseEvaluation: baseEval)
+                evaluations.append(personalityEval)
+            } else {
+                evaluations.append(-999.0) // Invalid move
+            }
+        }
+        
+        // Let the decision engine choose the move
+        let selectedMoveString = decisionEngine.selectMove(candidates: candidates, evaluations: evaluations)
+        
+        // Find the corresponding move
+        for (index, candidate) in candidates.enumerated() {
+            if candidate == selectedMoveString {
+                return legalMoves[index]
+            }
+        }
+        
+        // Fallback to random move
+        return legalMoves.randomElement()!
     }
     
     private func selectTacticalMove(from moves: [(from: ChessPosition, to: ChessPosition)], engine: ChessEngine) -> (from: ChessPosition, to: ChessPosition)? {
@@ -375,5 +442,50 @@ extension ChessEngine {
             }
         }
         return nil
+    }
+    
+    // MARK: - Personality Integration
+    func getPersonalityComment() -> String? {
+        return decisionEngine?.getRandomComment()
+    }
+    
+    func getVictoryMessage() -> String {
+        return decisionEngine?.getVictoryMessage() ?? "Good game!"
+    }
+    
+    func getDefeatMessage() -> String {
+        return decisionEngine?.getDefeatMessage() ?? "Well played!"
+    }
+    
+    func resetMoveCount() {
+        moveCount = 0
+    }
+    
+    // MARK: - Personality Management
+    func setPersonality(_ personality: AIPersonality) {
+        currentPersonality = personality
+        decisionEngine = AIDecisionEngine(personality: personality)
+        
+        // Adjust engine settings based on personality
+        skillLevel = personality.skillLevel
+        currentDepth = max(3, min(15, Int(Double(personality.skillLevel) * 0.75)))
+        
+        configureEngine()
+        resetMoveCount()
+    }
+    
+    func getPersonalityForDifficulty(_ difficulty: AIDifficulty) -> AIPersonality {
+        switch difficulty {
+        case .beginner:
+            return AIPersonality.getRandomPersonality(skillRange: 1...5)
+        case .easy:
+            return AIPersonality.getRandomPersonality(skillRange: 6...10)
+        case .intermediate:
+            return AIPersonality.getRandomPersonality(skillRange: 11...15)
+        case .hard:
+            return AIPersonality.getRandomPersonality(skillRange: 16...18)
+        case .expert:
+            return AIPersonality.getRandomPersonality(skillRange: 19...20)
+        }
     }
 }

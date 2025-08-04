@@ -1,0 +1,324 @@
+[
+  {
+    "ecoCode": "A00",
+    "name": "Uncommon Opening",
+    "variation": null,
+    "moves": ["a3"],
+    "fen": null
+  },
+  {
+    "ecoCode": "A04",
+    "name": "Réti Opening",
+    "variation": null,
+    "moves": ["Nf3"],
+    "fen": null
+  },
+  {
+    "ecoCode": "A05",
+    "name": "Réti Opening",
+    "variation": "King's Indian Attack",
+    "moves": ["Nf3", "Nf6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "A10",
+    "name": "English Opening",
+    "variation": null,
+    "moves": ["c4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "A13",
+    "name": "English Opening",
+    "variation": "Anglo-Indian Defense",
+    "moves": ["c4", "Nf6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "A20",
+    "name": "English Opening",
+    "variation": "Reversed Sicilian",
+    "moves": ["c4", "e5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "A30",
+    "name": "English Opening",
+    "variation": "Symmetrical",
+    "moves": ["c4", "c5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B00",
+    "name": "King's Pawn",
+    "variation": "Nimzowitsch Defense",
+    "moves": ["e4", "Nc6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B01",
+    "name": "Scandinavian Defense",
+    "variation": null,
+    "moves": ["e4", "d5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B10",
+    "name": "Caro-Kann Defense",
+    "variation": null,
+    "moves": ["e4", "c6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B12",
+    "name": "Caro-Kann Defense",
+    "variation": "Advance Variation",
+    "moves": ["e4", "c6", "d4", "d5", "e5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B15",
+    "name": "Caro-Kann Defense",
+    "variation": "Main Line",
+    "moves": ["e4", "c6", "d4", "d5", "Nc3"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B20",
+    "name": "Sicilian Defense",
+    "variation": null,
+    "moves": ["e4", "c5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B22",
+    "name": "Sicilian Defense",
+    "variation": "Alapin Variation",
+    "moves": ["e4", "c5", "c3"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B30",
+    "name": "Sicilian Defense",
+    "variation": "Old Sicilian",
+    "moves": ["e4", "c5", "Nf3", "Nc6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B40",
+    "name": "Sicilian Defense",
+    "variation": "French Variation",
+    "moves": ["e4", "c5", "Nf3", "e6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B50",
+    "name": "Sicilian Defense",
+    "variation": null,
+    "moves": ["e4", "c5", "Nf3", "d6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B70",
+    "name": "Sicilian Defense",
+    "variation": "Dragon Variation",
+    "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "g6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "B90",
+    "name": "Sicilian Defense",
+    "variation": "Najdorf Variation",
+    "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C00",
+    "name": "French Defense",
+    "variation": null,
+    "moves": ["e4", "e6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C02",
+    "name": "French Defense",
+    "variation": "Advance Variation",
+    "moves": ["e4", "e6", "d4", "d5", "e5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C10",
+    "name": "French Defense",
+    "variation": "Exchange Variation",
+    "moves": ["e4", "e6", "d4", "d5", "exd5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C11",
+    "name": "French Defense",
+    "variation": "Steinitz Variation",
+    "moves": ["e4", "e6", "d4", "d5", "Nc3"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C20",
+    "name": "King's Pawn Game",
+    "variation": null,
+    "moves": ["e4", "e5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C25",
+    "name": "Vienna Game",
+    "variation": null,
+    "moves": ["e4", "e5", "Nc3"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C30",
+    "name": "King's Gambit",
+    "variation": null,
+    "moves": ["e4", "e5", "f4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C44",
+    "name": "Scotch Game",
+    "variation": null,
+    "moves": ["e4", "e5", "Nf3", "Nc6", "d4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C50",
+    "name": "Italian Game",
+    "variation": null,
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C53",
+    "name": "Italian Game",
+    "variation": "Classical Variation",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C60",
+    "name": "Spanish Opening",
+    "variation": "Ruy Lopez",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C65",
+    "name": "Spanish Opening",
+    "variation": "Berlin Defense",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "Nf6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C70",
+    "name": "Spanish Opening",
+    "variation": "Morphy Defense",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C80",
+    "name": "Spanish Opening",
+    "variation": "Open Variation",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6", "Ba4", "Nf6", "O-O", "Nxe4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "C90",
+    "name": "Spanish Opening",
+    "variation": "Closed Variation",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6", "Ba4", "Nf6", "O-O", "Be7"],
+    "fen": null
+  },
+  {
+    "ecoCode": "D00",
+    "name": "Queen's Pawn Game",
+    "variation": null,
+    "moves": ["d4", "d5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "D06",
+    "name": "Queen's Gambit",
+    "variation": null,
+    "moves": ["d4", "d5", "c4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "D08",
+    "name": "Queen's Gambit Declined",
+    "variation": "Albin Counter-Gambit",
+    "moves": ["d4", "d5", "c4", "e5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "D20",
+    "name": "Queen's Gambit Accepted",
+    "variation": null,
+    "moves": ["d4", "d5", "c4", "dxc4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "D30",
+    "name": "Queen's Gambit Declined",
+    "variation": null,
+    "moves": ["d4", "d5", "c4", "e6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "D35",
+    "name": "Queen's Gambit Declined",
+    "variation": "Exchange Variation",
+    "moves": ["d4", "d5", "c4", "e6", "cxd5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "D50",
+    "name": "Queen's Gambit Declined",
+    "variation": "4.Bg5",
+    "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "E20",
+    "name": "Nimzo-Indian Defense",
+    "variation": null,
+    "moves": ["d4", "Nf6", "c4", "e6", "Nc3", "Bb4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "E30",
+    "name": "Nimzo-Indian Defense",
+    "variation": "Leningrad Variation",
+    "moves": ["d4", "Nf6", "c4", "e6", "Nc3", "Bb4", "Bg5"],
+    "fen": null
+  },
+  {
+    "ecoCode": "E60",
+    "name": "King's Indian Defense",
+    "variation": null,
+    "moves": ["d4", "Nf6", "c4", "g6"],
+    "fen": null
+  },
+  {
+    "ecoCode": "E70",
+    "name": "King's Indian Defense",
+    "variation": "Normal Variation",
+    "moves": ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7", "e4"],
+    "fen": null
+  },
+  {
+    "ecoCode": "E90",
+    "name": "King's Indian Defense",
+    "variation": "Classical Variation",
+    "moves": ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7", "e4", "d6", "Nf3", "O-O", "Be2"],
+    "fen": null
+  }
+]

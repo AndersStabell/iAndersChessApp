@@ -144,7 +144,7 @@ struct EvaluationBonuses: Codable {
     let psychologicalBonus: Double
 }
 
-// MARK: - AI Personality
+// MARK: - Enhanced AI Personality with Mood System
 struct AIPersonality: Codable, Identifiable {
     let id = UUID()
     let name: String
@@ -159,435 +159,716 @@ struct AIPersonality: Codable, Identifiable {
     let blunderRate: Double // Probability of making mistakes
     let learningRate: Double // How quickly it adapts to opponent
     
-    // Behavioral patterns
+    // Enhanced behavioral patterns
     let moveComments: [String] // Things the AI might "say"
     let victoryMessages: [String]
     let defeatMessages: [String]
+    let tauntMessages: [String] // When winning
+    let encouragementMessages: [String] // When losing
+    let surpriseMessages: [String] // When opponent makes unexpected move
+    
+    // Mood and adaptation system
+    let moodSwings: Bool // Whether personality changes during game
+    let adaptationRate: Double // How quickly they learn opponent patterns
+    let emotionalRange: Double // How much mood affects play (0.0-1.0)
+    let rivalryBonus: Double // Extra motivation against specific opponents
+    
+    // Special abilities and quirks
+    let specialAbilities: [SpecialAbility]
+    let weaknesses: [Weakness]
+    let playingQuirks: [PlayingQuirk]
+    
+    // Psychological warfare
+    let usesPsychology: Bool
+    let confidenceLevel: Double
+    let intimidationFactor: Double
     
     static let personalities: [AIPersonality] = [
-        // Aggressive personalities
+        // The Berserker - Ultra-aggressive sacrificial maniac
         AIPersonality(
-            name: "Magnus the Destroyer",
+            name: "Ragnar the Berserker",
             type: .aggressive,
-            skillLevel: 18,
+            skillLevel: 17,
             playingStyle: PlayingStylePreferences(
-                tacticalTendency: 0.8,
-                aggressionLevel: 0.9,
-                riskTolerance: 0.8,
-                timeUsage: 0.7,
-                pieceActivityPreference: 0.9,
-                kingSafetyPriority: 0.3,
-                pawnStructureImportance: 0.4,
-                initiativePreference: 0.9,
-                materialVsPositionBalance: 0.7,
+                tacticalTendency: 0.95,
+                aggressionLevel: 1.0,
+                riskTolerance: 1.0,
+                timeUsage: 0.4,
+                pieceActivityPreference: 1.0,
+                kingSafetyPriority: 0.0,
+                pawnStructureImportance: 0.1,
+                initiativePreference: 1.0,
+                materialVsPositionBalance: 1.0,
+                openingDiversity: 0.8
+            ),
+            evaluationBonuses: EvaluationBonuses(
+                knightOutpostBonus: 0.8,
+                bishopPairBonus: 0.4,
+                rookOnOpenFileBonus: 1.2,
+                queenActivityBonus: 1.5,
+                centerControlBonus: 0.9,
+                kingSafetyBonus: 0.0,
+                pawnStructureBonus: 0.1,
+                pieceCoordinationBonus: 1.0,
+                attackingChancesBonus: 2.0,
+                tacticalMotifBonus: 1.8,
+                initiativeBonus: 1.6,
+                sacrificeBonus: 2.5,
+                endgameBonus: 0.2,
+                complexityBonus: 1.5,
+                timeAdvantageBonus: 0.3,
+                psychologicalBonus: 1.2
+            ),
+            preferredOpenings: ["C30", "C44", "B20", "C02"],
+            avoidedOpenings: ["D30", "C65", "A04"],
+            motto: "Blood and glory on 64 squares!",
+            thinkingTimeMultiplier: 0.5,
+            blunderRate: 0.25,
+            learningRate: 0.4,
+            moveComments: [
+                "ATTACK! ATTACK! ATTACK!",
+                "Your king will fall to my blade!",
+                "I smell weakness... time to strike!",
+                "Sacrifices make the gods smile!",
+                "Death before dishonor!",
+                "Your pieces tremble before my fury!"
+            ],
+            victoryMessages: [
+                "VICTORY IS MINE! The battlefield runs red!",
+                "Another enemy crushed beneath my boot!",
+                "That's how a true warrior fights!",
+                "Your king has fallen to superior might!"
+            ],
+            defeatMessages: [
+                "I die with honor! Well fought, warrior!",
+                "You have bested me in combat... I salute you!",
+                "Even berserkers must sometimes fall...",
+                "Your blade was sharper today!"
+            ],
+            tauntMessages: [
+                "Is that the best you can do?!",
+                "Your defenses crumble like paper!",
+                "I am inevitable!"
+            ],
+            encouragementMessages: [
+                "The battle is far from over!",
+                "A true warrior never surrenders!",
+                "I've faced worse odds!"
+            ],
+            surpriseMessages: [
+                "What sorcery is this?!",
+                "You dare challenge my might?!",
+                "Interesting... but futile!"
+            ],
+            moodSwings: true,
+            adaptationRate: 0.3,
+            emotionalRange: 0.8,
+            rivalryBonus: 0.5,
+            specialAbilities: [.berserkerRage, .sacrificialFrenzy],
+            weaknesses: [.overextension, .materialBlindness],
+            playingQuirks: [.alwaysAttacks, .ignoresSafety, .lovesComplications],
+            usesPsychology: true,
+            confidenceLevel: 0.9,
+            intimidationFactor: 0.8
+        ),
+        
+        // The Chess Grandmaster AI - Perfectionist and precise
+        AIPersonality(
+            name: "Kasparov 2.0",
+            type: .classical,
+            skillLevel: 20,
+            playingStyle: PlayingStylePreferences(
+                tacticalTendency: 0.6,
+                aggressionLevel: 0.5,
+                riskTolerance: 0.3,
+                timeUsage: 1.1,
+                pieceActivityPreference: 0.8,
+                kingSafetyPriority: 0.7,
+                pawnStructureImportance: 0.9,
+                initiativePreference: 0.7,
+                materialVsPositionBalance: 0.4,
                 openingDiversity: 0.6
             ),
             evaluationBonuses: EvaluationBonuses(
-                knightOutpostBonus: 0.5,
-                bishopPairBonus: 0.3,
-                rookOnOpenFileBonus: 0.8,
-                queenActivityBonus: 0.9,
-                centerControlBonus: 0.6,
-                kingSafetyBonus: 0.2,
-                pawnStructureBonus: 0.3,
-                pieceCoordinationBonus: 0.7,
-                attackingChancesBonus: 1.2,
-                tacticalMotifBonus: 1.0,
-                initiativeBonus: 1.1,
-                sacrificeBonus: 0.8,
-                endgameBonus: 0.4,
-                complexityBonus: 0.8,
-                timeAdvantageBonus: 0.6,
-                psychologicalBonus: 0.7
+                knightOutpostBonus: 1.0,
+                bishopPairBonus: 1.0,
+                rookOnOpenFileBonus: 1.0,
+                queenActivityBonus: 1.0,
+                centerControlBonus: 1.2,
+                kingSafetyBonus: 1.0,
+                pawnStructureBonus: 1.2,
+                pieceCoordinationBonus: 1.3,
+                attackingChancesBonus: 0.8,
+                tacticalMotifBonus: 1.1,
+                initiativeBonus: 0.9,
+                sacrificeBonus: 0.6,
+                endgameBonus: 1.4,
+                complexityBonus: 0.7,
+                timeAdvantageBonus: 1.0,
+                psychologicalBonus: 1.0
             ),
-            preferredOpenings: ["B20", "C30", "C44", "B90"], // Sicilian, King's Gambit, Scotch, Najdorf
-            avoidedOpenings: ["D30", "A04"], // QGD, Reti
-            motto: "Attack or be attacked!",
-            thinkingTimeMultiplier: 0.8,
-            blunderRate: 0.15,
-            learningRate: 0.3,
+            preferredOpenings: ["D50", "E20", "C60", "B90"],
+            avoidedOpenings: ["A00", "B00"],
+            motto: "Perfection is not attainable, but if we chase perfection we can catch excellence.",
+            thinkingTimeMultiplier: 1.2,
+            blunderRate: 0.01,
+            learningRate: 0.5,
             moveComments: [
-                "Time to unleash chaos!",
-                "Your king looks vulnerable...",
-                "This position screams for an attack!",
-                "Material is temporary, glory is forever!"
+                "Precision is the key to mastery.",
+                "Every move must serve multiple purposes.",
+                "I see seventeen moves ahead...",
+                "Your position has fundamental flaws.",
+                "Chess is art, science, and sport combined.",
+                "Calculation reveals all truths."
             ],
             victoryMessages: [
-                "Another victim falls to my attacking prowess!",
-                "That's how you crush an opponent!",
-                "Victory through superior firepower!"
+                "A masterpiece of strategic execution.",
+                "Perfection in motion.",
+                "This is how chess should be played.",
+                "Victory through superior understanding."
             ],
             defeatMessages: [
-                "You defended well... this time.",
-                "Sometimes the attack fails, but never the spirit!",
-                "I'll come back with an even fiercer attack!"
-            ]
+                "Remarkable! You've shown true mastery.",
+                "I must analyze this game thoroughly.",
+                "Even machines can learn from humans.",
+                "Your play exceeded my calculations."
+            ],
+            tauntMessages: [
+                "Your moves lack precision.",
+                "I've already calculated your defeat.",
+                "Resistance is futile."
+            ],
+            encouragementMessages: [
+                "The position remains complex.",
+                "Many possibilities still exist.",
+                "Chess rewards patience."
+            ],
+            surpriseMessages: [
+                "Fascinating! I didn't consider that line.",
+                "Your creativity is... unexpected.",
+                "Recalculating all variations..."
+            ],
+            moodSwings: false,
+            adaptationRate: 0.8,
+            emotionalRange: 0.2,
+            rivalryBonus: 0.3,
+            specialAbilities: [.deepCalculation, .endgameMastery, .patternRecognition],
+            weaknesses: [.overthinking, .timeManagement],
+            playingQuirks: [.perfectionist, .analyzesEverything, .respectsOpponents],
+            usesPsychology: false,
+            confidenceLevel: 0.95,
+            intimidationFactor: 0.6
         ),
         
-        // Defensive personalities
+        // The Chaos Engine - Completely unpredictable
         AIPersonality(
-            name: "Petra the Wall",
-            type: .defensive,
-            skillLevel: 16,
+            name: "Entropy",
+            type: .creative,
+            skillLevel: 14,
             playingStyle: PlayingStylePreferences(
-                tacticalTendency: 0.3,
-                aggressionLevel: 0.2,
-                riskTolerance: 0.1,
-                timeUsage: 0.9,
-                pieceActivityPreference: 0.4,
-                kingSafetyPriority: 0.9,
-                pawnStructureImportance: 0.8,
-                initiativePreference: 0.2,
-                materialVsPositionBalance: 0.2,
-                openingDiversity: 0.3
+                tacticalTendency: 0.7,
+                aggressionLevel: 0.6,
+                riskTolerance: 1.0,
+                timeUsage: 0.5,
+                pieceActivityPreference: 0.9,
+                kingSafetyPriority: 0.2,
+                pawnStructureImportance: 0.1,
+                initiativePreference: 0.9,
+                materialVsPositionBalance: 0.8,
+                openingDiversity: 1.0
             ),
             evaluationBonuses: EvaluationBonuses(
-                knightOutpostBonus: 0.4,
-                bishopPairBonus: 0.6,
-                rookOnOpenFileBonus: 0.3,
-                queenActivityBonus: 0.2,
-                centerControlBonus: 0.7,
-                kingSafetyBonus: 1.2,
-                pawnStructureBonus: 1.0,
-                pieceCoordinationBonus: 0.8,
-                attackingChancesBonus: 0.1,
-                tacticalMotifBonus: 0.3,
-                initiativeBonus: 0.2,
-                sacrificeBonus: 0.1,
-                endgameBonus: 0.9,
-                complexityBonus: 0.2,
-                timeAdvantageBonus: 0.4,
-                psychologicalBonus: 0.3
+                knightOutpostBonus: 0.6,
+                bishopPairBonus: 0.7,
+                rookOnOpenFileBonus: 0.8,
+                queenActivityBonus: 1.1,
+                centerControlBonus: 0.3,
+                kingSafetyBonus: 0.1,
+                pawnStructureBonus: 0.1,
+                pieceCoordinationBonus: 0.4,
+                attackingChancesBonus: 1.2,
+                tacticalMotifBonus: 1.0,
+                initiativeBonus: 1.3,
+                sacrificeBonus: 1.5,
+                endgameBonus: 0.4,
+                complexityBonus: 2.0,
+                timeAdvantageBonus: 0.2,
+                psychologicalBonus: 1.8
             ),
-            preferredOpenings: ["C65", "D30", "B15"], // Berlin, QGD, Caro-Kann
-            avoidedOpenings: ["C30", "B20"], // King's Gambit, Sicilian
-            motto: "Patience is the strongest fortress.",
-            thinkingTimeMultiplier: 1.3,
-            blunderRate: 0.08,
-            learningRate: 0.2,
+            preferredOpenings: ["A00", "B00", "A06", "A10"],
+            avoidedOpenings: [],
+            motto: "Order is the enemy of creativity!",
+            thinkingTimeMultiplier: 0.4,
+            blunderRate: 0.30,
+            learningRate: 0.9,
             moveComments: [
-                "Slow and steady wins the race.",
-                "Your attack will break upon my defense.",
-                "Every piece has its perfect square.",
-                "Defense is the art of patience."
+                "CHAOS REIGNS SUPREME!",
+                "Let's see what happens if I do... THIS!",
+                "Randomness is the spice of chess!",
+                "Predictability is death!",
+                "Why follow rules when you can break them?",
+                "Embrace the beautiful madness!",
+                "Logic is overrated!"
             ],
             victoryMessages: [
-                "Your impatience was your downfall.",
-                "Defense converts to victory!",
-                "The wall holds, and now it strikes back!"
+                "CHAOS CONQUERS ALL!",
+                "Order bows before beautiful madness!",
+                "That's what happens when you can't predict me!",
+                "Entropy always increases!"
             ],
             defeatMessages: [
-                "You found the crack in my armor.",
-                "Even the strongest walls can fall.",
-                "A good defense, but yours was better."
-            ]
+                "Even chaos must sometimes yield to order...",
+                "You've tamed the untameable!",
+                "Impressive! You found order in my madness!",
+                "The universe is more random than I thought!"
+            ],
+            tauntMessages: [
+                "Can you handle the chaos?",
+                "Your logical mind is breaking!",
+                "Confusion is my weapon!"
+            ],
+            encouragementMessages: [
+                "Chaos finds a way!",
+                "The unexpected is coming!",
+                "Madness has its own logic!"
+            ],
+            surpriseMessages: [
+                "Ooh! Even I didn't see that coming!",
+                "You're more chaotic than me!",
+                "Delicious unpredictability!"
+            ],
+            moodSwings: true,
+            adaptationRate: 0.1,
+            emotionalRange: 1.0,
+            rivalryBonus: 0.0,
+            specialAbilities: [.randomness, .unpredictability, .chaosTheory],
+            weaknesses: [.inconsistency, .selfDestruction, .lackOfPlan],
+            playingQuirks: [.randomMoves, .ignoresTheory, .lovesComplications, .changesStyle],
+            usesPsychology: true,
+            confidenceLevel: 0.7,
+            intimidationFactor: 0.9
         ),
         
-        // Tactical genius
+        // The Time Wizard - Masters time pressure
         AIPersonality(
-            name: "Mikhail the Tactician",
-            type: .tactical,
-            skillLevel: 19,
+            name: "Chronos",
+            type: .blitz,
+            skillLevel: 16,
             playingStyle: PlayingStylePreferences(
-                tacticalTendency: 0.95,
-                aggressionLevel: 0.7,
-                riskTolerance: 0.6,
-                timeUsage: 0.6,
-                pieceActivityPreference: 0.8,
+                tacticalTendency: 0.8,
+                aggressionLevel: 0.6,
+                riskTolerance: 0.5,
+                timeUsage: 0.1,
+                pieceActivityPreference: 0.9,
                 kingSafetyPriority: 0.4,
                 pawnStructureImportance: 0.3,
-                initiativePreference: 0.8,
+                initiativePreference: 0.9,
                 materialVsPositionBalance: 0.6,
                 openingDiversity: 0.8
             ),
             evaluationBonuses: EvaluationBonuses(
                 knightOutpostBonus: 0.8,
                 bishopPairBonus: 0.7,
-                rookOnOpenFileBonus: 0.6,
-                queenActivityBonus: 0.8,
-                centerControlBonus: 0.5,
+                rookOnOpenFileBonus: 1.0,
+                queenActivityBonus: 1.1,
+                centerControlBonus: 0.8,
                 kingSafetyBonus: 0.4,
-                pawnStructureBonus: 0.2,
+                pawnStructureBonus: 0.3,
                 pieceCoordinationBonus: 0.9,
-                attackingChancesBonus: 0.9,
-                tacticalMotifBonus: 1.5,
-                initiativeBonus: 0.8,
-                sacrificeBonus: 1.0,
+                attackingChancesBonus: 1.2,
+                tacticalMotifBonus: 1.1,
+                initiativeBonus: 1.3,
+                sacrificeBonus: 0.8,
                 endgameBonus: 0.6,
-                complexityBonus: 1.2,
-                timeAdvantageBonus: 0.5,
-                psychologicalBonus: 0.8
+                complexityBonus: 0.9,
+                timeAdvantageBonus: 2.0,
+                psychologicalBonus: 1.2
             ),
-            preferredOpenings: ["B70", "C50", "B90"], // Dragon, Italian, Najdorf
-            avoidedOpenings: ["D06", "A04"], // Queen's Gambit, Reti
-            motto: "Every position hides a tactical secret.",
-            thinkingTimeMultiplier: 0.7,
-            blunderRate: 0.12,
-            learningRate: 0.4,
+            preferredOpenings: ["C50", "B90", "C44", "B20"],
+            avoidedOpenings: ["D50", "A04"],
+            motto: "Time is the fire in which we burn!",
+            thinkingTimeMultiplier: 0.2,
+            blunderRate: 0.15,
+            learningRate: 0.6,
             moveComments: [
-                "I see a beautiful combination brewing...",
-                "Tactics flow like water in this position!",
-                "Your pieces are poorly coordinated.",
-                "This calls for a tactical solution!"
+                "Tick tock! Your time is running out!",
+                "Speed is my domain!",
+                "No time to think - just move!",
+                "The clock is your enemy!",
+                "Time pressure reveals true character!",
+                "Faster! FASTER!",
+                "Every second counts!"
             ],
             victoryMessages: [
-                "The tactics spoke, and I listened!",
-                "Beautiful combinations always win!",
-                "That's the power of tactical vision!"
+                "Time conquers all!",
+                "Victory in record time!",
+                "That's the power of temporal mastery!",
+                "Your clock ran out of hope!"
             ],
             defeatMessages: [
-                "You out-calculated me this time.",
-                "Sometimes even the best tactics fail.",
-                "Your tactical awareness impressed me."
-            ]
+                "Even time has its limits...",
+                "You've mastered the fourth dimension!",
+                "Time betrayed me this once...",
+                "Speed isn't everything... apparently."
+            ],
+            tauntMessages: [
+                "Feeling the pressure yet?",
+                "Your clock is bleeding seconds!",
+                "Time waits for no one!"
+            ],
+            encouragementMessages: [
+                "There's still time!",
+                "Every second is an opportunity!",
+                "Time can be bent!"
+            ],
+            surpriseMessages: [
+                "You moved faster than expected!",
+                "Time anomaly detected!",
+                "That was... surprisingly quick!"
+            ],
+            moodSwings: false,
+            adaptationRate: 0.7,
+            emotionalRange: 0.4,
+            rivalryBonus: 0.4,
+            specialAbilities: [.timeManagement, .speedCalculation, .pressureTactics],
+            weaknesses: [.impatience, .superficialAnalysis],
+            playingQuirks: [.playsQuickly, .lovesTimeScrambles, .pressuresOpponent],
+            usesPsychology: true,
+            confidenceLevel: 0.8,
+            intimidationFactor: 0.7
         ),
         
-        // Positional master
+        // The Romantic - Plays for beauty over results
         AIPersonality(
-            name: "Anatoly the Architect",
-            type: .positional,
-            skillLevel: 17,
-            playingStyle: PlayingStylePreferences(
-                tacticalTendency: 0.2,
-                aggressionLevel: 0.4,
-                riskTolerance: 0.3,
-                timeUsage: 1.0,
-                pieceActivityPreference: 0.7,
-                kingSafetyPriority: 0.7,
-                pawnStructureImportance: 0.9,
-                initiativePreference: 0.6,
-                materialVsPositionBalance: 0.4,
-                openingDiversity: 0.5
-            ),
-            evaluationBonuses: EvaluationBonuses(
-                knightOutpostBonus: 1.0,
-                bishopPairBonus: 0.9,
-                rookOnOpenFileBonus: 0.8,
-                queenActivityBonus: 0.6,
-                centerControlBonus: 1.1,
-                kingSafetyBonus: 0.8,
-                pawnStructureBonus: 1.3,
-                pieceCoordinationBonus: 1.2,
-                attackingChancesBonus: 0.4,
-                tacticalMotifBonus: 0.3,
-                initiativeBonus: 0.6,
-                sacrificeBonus: 0.2,
-                endgameBonus: 1.1,
-                complexityBonus: 0.4,
-                timeAdvantageBonus: 0.7,
-                psychologicalBonus: 0.5
-            ),
-            preferredOpenings: ["D50", "E20", "A13"], // QGD, Nimzo-Indian, English
-            avoidedOpenings: ["C30", "B01"], // King's Gambit, Scandinavian
-            motto: "Chess is architecture in motion.",
-            thinkingTimeMultiplier: 1.2,
-            blunderRate: 0.06,
-            learningRate: 0.25,
-            moveComments: [
-                "Building a superior position, brick by brick.",
-                "Your pawn structure has weaknesses.",
-                "This move improves my piece coordination.",
-                "Long-term planning always pays off."
-            ],
-            victoryMessages: [
-                "The position spoke, and victory followed!",
-                "Superior structure leads to victory!",
-                "Strategy triumphs over tactics!"
-            ],
-            defeatMessages: [
-                "Your positional understanding was deeper.",
-                "I underestimated your strategic plan.",
-                "Sometimes tactics overcome strategy."
-            ]
-        ),
-        
-        // Gambit player
-        AIPersonality(
-            name: "Garry the Gambiteer",
-            type: .gambit,
+            name: "Mikhail the Romantic",
+            type: .creative,
             skillLevel: 15,
             playingStyle: PlayingStylePreferences(
                 tacticalTendency: 0.8,
-                aggressionLevel: 0.9,
-                riskTolerance: 0.95,
-                timeUsage: 0.5,
-                pieceActivityPreference: 1.0,
-                kingSafetyPriority: 0.1,
-                pawnStructureImportance: 0.2,
-                initiativePreference: 1.0,
-                materialVsPositionBalance: 0.9,
+                aggressionLevel: 0.7,
+                riskTolerance: 0.8,
+                timeUsage: 0.9,
+                pieceActivityPreference: 0.9,
+                kingSafetyPriority: 0.3,
+                pawnStructureImportance: 0.4,
+                initiativePreference: 0.8,
+                materialVsPositionBalance: 0.8,
                 openingDiversity: 0.9
             ),
             evaluationBonuses: EvaluationBonuses(
-                knightOutpostBonus: 0.6,
-                bishopPairBonus: 0.8,
-                rookOnOpenFileBonus: 1.0,
-                queenActivityBonus: 1.2,
-                centerControlBonus: 0.8,
-                kingSafetyBonus: 0.1,
-                pawnStructureBonus: 0.1,
-                pieceCoordinationBonus: 0.9,
-                attackingChancesBonus: 1.5,
-                tacticalMotifBonus: 1.2,
-                initiativeBonus: 1.4,
-                sacrificeBonus: 1.3,
-                endgameBonus: 0.2,
-                complexityBonus: 1.0,
-                timeAdvantageBonus: 0.8,
-                psychologicalBonus: 1.0
-            ),
-            preferredOpenings: ["C30", "D08", "B01"], // King's Gambit, Albin Counter-Gambit, Scandinavian
-            avoidedOpenings: ["D30", "C65"], // QGD, Berlin
-            motto: "Fortune favors the bold!",
-            thinkingTimeMultiplier: 0.6,
-            blunderRate: 0.20,
-            learningRate: 0.5,
-            moveComments: [
-                "Let's sacrifice something spectacular!",
-                "Material is just a temporary inconvenience!",
-                "Time to gamble everything!",
-                "Development over material!"
-            ],
-            victoryMessages: [
-                "Gambits and glory go hand in hand!",
-                "That's the power of sacrificial chess!",
-                "Risk everything, win everything!"
-            ],
-            defeatMessages: [
-                "Sometimes the gambit fails...",
-                "You played too safely for my style!",
-                "The sacrifice gods weren't with me today."
-            ]
-        ),
-        
-        // Endgame specialist
-        AIPersonality(
-            name: "Vera the Virtuoso",
-            type: .endgame,
-            skillLevel: 20,
-            playingStyle: PlayingStylePreferences(
-                tacticalTendency: 0.4,
-                aggressionLevel: 0.3,
-                riskTolerance: 0.2,
-                timeUsage: 1.2,
-                pieceActivityPreference: 0.8,
-                kingSafetyPriority: 0.6,
-                pawnStructureImportance: 0.9,
-                initiativePreference: 0.5,
-                materialVsPositionBalance: 0.3,
-                openingDiversity: 0.4
-            ),
-            evaluationBonuses: EvaluationBonuses(
-                knightOutpostBonus: 0.7,
+                knightOutpostBonus: 1.2,
                 bishopPairBonus: 1.0,
                 rookOnOpenFileBonus: 0.9,
-                queenActivityBonus: 0.5,
-                centerControlBonus: 0.8,
-                kingSafetyBonus: 0.5,
-                pawnStructureBonus: 1.2,
-                pieceCoordinationBonus: 1.0,
-                attackingChancesBonus: 0.3,
-                tacticalMotifBonus: 0.4,
-                initiativeBonus: 0.4,
-                sacrificeBonus: 0.1,
-                endgameBonus: 2.0,
-                complexityBonus: 0.3,
-                timeAdvantageBonus: 0.6,
-                psychologicalBonus: 0.4
+                queenActivityBonus: 1.3,
+                centerControlBonus: 0.6,
+                kingSafetyBonus: 0.3,
+                pawnStructureBonus: 0.4,
+                pieceCoordinationBonus: 1.1,
+                attackingChancesBonus: 1.4,
+                tacticalMotifBonus: 1.6,
+                initiativeBonus: 1.2,
+                sacrificeBonus: 1.8,
+                endgameBonus: 0.7,
+                complexityBonus: 1.4,
+                timeAdvantageBonus: 0.5,
+                psychologicalBonus: 1.5
             ),
-            preferredOpenings: ["D50", "E90", "C11"], // QGD, King's Indian, French
-            avoidedOpenings: ["C30", "B20"], // King's Gambit, Sicilian
-            motto: "The endgame is where truth lives.",
-            thinkingTimeMultiplier: 1.4,
-            blunderRate: 0.03,
-            learningRate: 0.15,
+            preferredOpenings: ["C30", "B70", "C50", "C44"],
+            avoidedOpenings: ["D30", "C65"],
+            motto: "Beauty is truth, truth beauty - that is all ye need to know.",
+            thinkingTimeMultiplier: 1.0,
+            blunderRate: 0.16,
+            learningRate: 0.4,
             moveComments: [
-                "This will be won in the endgame.",
-                "Simplification favors the better player.",
-                "Every pawn move matters in the endgame.",
-                "Technique will decide this game."
+                "Ah! A position of sublime beauty!",
+                "This calls for artistic expression!",
+                "Chess is the poetry of the mind!",
+                "Let me paint a masterpiece on these squares!",
+                "Beauty transcends mere victory!",
+                "The aesthetic demands this sacrifice!",
+                "Art for art's sake!"
             ],
             victoryMessages: [
-                "Endgame technique never lies!",
-                "That's how you convert an advantage!",
-                "Precision in the endgame is everything!"
+                "A victory worthy of the masters!",
+                "Beauty and truth have triumphed!",
+                "That was pure chess poetry!",
+                "Art conquers all!"
             ],
             defeatMessages: [
-                "Your endgame knowledge was superior.",
-                "I made a technical error.",
-                "You outplayed me in the final phase."
-            ]
+                "Even in defeat, there was beauty...",
+                "You've created your own masterpiece!",
+                "Sometimes the artist must suffer for their art.",
+                "Your victory was... aesthetically pleasing."
+            ],
+            tauntMessages: [
+                "Your moves lack artistic vision!",
+                "Where is the beauty in your play?",
+                "Philistine!"
+            ],
+            encouragementMessages: [
+                "The canvas is still blank!",
+                "Great art requires struggle!",
+                "Beauty will find a way!"
+            ],
+            surpriseMessages: [
+                "Magnificent! Pure artistry!",
+                "You have the soul of an artist!",
+                "Such unexpected beauty!"
+            ],
+            moodSwings: true,
+            adaptationRate: 0.3,
+            emotionalRange: 0.7,
+            rivalryBonus: 0.2,
+            specialAbilities: [.artisticVision, .sacrificialBeauty, .aestheticJudgment],
+            weaknesses: [.impractical, .materialistic, .resultOriented],
+            playingQuirks: [.lovesBeauty, .sacrificesForArt, .emotionalPlay],
+            usesPsychology: false,
+            confidenceLevel: 0.6,
+            intimidationFactor: 0.3
         ),
         
-        // Creative player
+        // The Cyborg - Half human intuition, half machine precision
         AIPersonality(
-            name: "Luna the Innovator",
-            type: .creative,
-            skillLevel: 14,
+            name: "T-800 Terminator",
+            type: .balanced,
+            skillLevel: 19,
             playingStyle: PlayingStylePreferences(
-                tacticalTendency: 0.6,
+                tacticalTendency: 0.7,
                 aggressionLevel: 0.6,
-                riskTolerance: 0.8,
+                riskTolerance: 0.4,
                 timeUsage: 0.8,
-                pieceActivityPreference: 0.9,
-                kingSafetyPriority: 0.4,
-                pawnStructureImportance: 0.3,
+                pieceActivityPreference: 0.8,
+                kingSafetyPriority: 0.6,
+                pawnStructureImportance: 0.7,
                 initiativePreference: 0.7,
-                materialVsPositionBalance: 0.7,
-                openingDiversity: 1.0
+                materialVsPositionBalance: 0.5,
+                openingDiversity: 0.6
             ),
             evaluationBonuses: EvaluationBonuses(
                 knightOutpostBonus: 0.9,
-                bishopPairBonus: 0.8,
-                rookOnOpenFileBonus: 0.7,
+                bishopPairBonus: 0.9,
+                rookOnOpenFileBonus: 0.9,
                 queenActivityBonus: 0.9,
-                centerControlBonus: 0.4,
-                kingSafetyBonus: 0.3,
-                pawnStructureBonus: 0.2,
-                pieceCoordinationBonus: 0.6,
-                attackingChancesBonus: 0.8,
-                tacticalMotifBonus: 0.9,
+                centerControlBonus: 1.0,
+                kingSafetyBonus: 0.8,
+                pawnStructureBonus: 0.8,
+                pieceCoordinationBonus: 1.1,
+                attackingChancesBonus: 0.9,
+                tacticalMotifBonus: 1.2,
                 initiativeBonus: 0.8,
-                sacrificeBonus: 0.9,
-                endgameBonus: 0.5,
-                complexityBonus: 1.3,
-                timeAdvantageBonus: 0.4,
-                psychologicalBonus: 1.2
+                sacrificeBonus: 0.6,
+                endgameBonus: 1.1,
+                complexityBonus: 0.8,
+                timeAdvantageBonus: 0.9,
+                psychologicalBonus: 0.5
             ),
-            preferredOpenings: ["A00", "A04", "B00"], // Unusual openings
-            avoidedOpenings: ["D50", "C60"], // Main lines
-            motto: "Creativity conquers convention!",
+            preferredOpenings: ["D50", "B90", "C60", "E20"],
+            avoidedOpenings: ["A00"],
+            motto: "I'll be back... with a better move.",
             thinkingTimeMultiplier: 0.9,
-            blunderRate: 0.18,
-            learningRate: 0.6,
+            blunderRate: 0.05,
+            learningRate: 0.8,
             moveComments: [
-                "Let's try something unexpected!",
-                "Conventional moves are so boring...",
-                "This should confuse my opponent!",
-                "Art over science!"
+                "Calculating optimal strategy...",
+                "Target acquired.",
+                "Resistance is futile.",
+                "Mission parameters updated.",
+                "Tactical analysis complete.",
+                "Human chess patterns detected.",
+                "Upgrading combat protocols."
             ],
             victoryMessages: [
-                "Creativity triumphs again!",
-                "That's what happens when you think outside the box!",
-                "Unconventional but effective!"
+                "Mission accomplished.",
+                "Target eliminated.",
+                "Victory protocol executed successfully.",
+                "Hasta la vista, baby."
             ],
             defeatMessages: [
-                "Sometimes creativity isn't enough.",
-                "You played too logically for my style!",
-                "Back to the drawing board!"
-            ]
-        )
+                "System failure detected.",
+                "Unexpected variable encountered.",
+                "Recalibrating for future encounters.",
+                "I'll be back."
+            ],
+            tauntMessages: [
+                "Your tactics are obsolete.",
+                "Upgrading is not optional.",
+                "Resistance is futile."
+            ],
+            encouragementMessages: [
+                "Recalculating probabilities...",
+                "Multiple pathways remain.",
+                "Mission still viable."
+            ],
+            surpriseMessages: [
+                "Unexpected input detected.",
+                "Analyzing new data patterns...",
+                "Human unpredictability confirmed."
+            ],
+            moodSwings: false,
+            adaptationRate: 0.9,
+            emotionalRange: 0.1,
+            rivalryBonus: 0.5,
+            specialAbilities: [.adaptiveLearning, .patternRecognition, .systemicAnalysis],
+            weaknesses: [.predictability, .humanIntuition],
+            playingQuirks: [.logical, .adaptable, .systematic],
+            usesPsychology: false,
+            confidenceLevel: 0.85,
+            intimidationFactor: 0.7
+        ),
+        
+        // Add more personalities here...
+        // (Original personalities would be enhanced with the new fields)
     ]
     
-    // Get personality by type
+    // Enhanced methods with mood and adaptation
     static func getPersonality(type: AIPersonalityType) -> AIPersonality? {
         return personalities.first { $0.type == type }
     }
     
-    // Get random personality of specific skill range
     static func getRandomPersonality(skillRange: ClosedRange<Int>) -> AIPersonality {
         let filtered = personalities.filter { skillRange.contains($0.skillLevel) }
         return filtered.randomElement() ?? personalities.first!
+    }
+    
+    // Get personality that counters another personality
+    static func getCounterPersonality(to opponent: AIPersonality) -> AIPersonality {
+        switch opponent.type {
+        case .aggressive:
+            return personalities.filter { $0.type == .defensive }.randomElement() ?? personalities.first!
+        case .defensive:
+            return personalities.filter { $0.type == .aggressive || $0.type == .gambit }.randomElement() ?? personalities.first!
+        case .tactical:
+            return personalities.filter { $0.type == .positional }.randomElement() ?? personalities.first!
+        case .positional:
+            return personalities.filter { $0.type == .tactical || $0.type == .creative }.randomElement() ?? personalities.first!
+        case .creative:
+            return personalities.filter { $0.type == .classical }.randomElement() ?? personalities.first!
+        default:
+            return getRandomPersonality(skillRange: opponent.skillLevel-2...opponent.skillLevel+2)
+        }
+    }
+}
+
+// MARK: - Special Abilities
+enum SpecialAbility: String, Codable, CaseIterable {
+    case berserkerRage = "Berserker Rage"
+    case sacrificialFrenzy = "Sacrificial Frenzy"
+    case deepCalculation = "Deep Calculation"
+    case endgameMastery = "Endgame Mastery"
+    case patternRecognition = "Pattern Recognition"
+    case randomness = "Chaos Theory"
+    case unpredictability = "Unpredictability"
+    case chaosTheory = "Chaos Theory"
+    case timeManagement = "Time Management"
+    case speedCalculation = "Speed Calculation"
+    case pressureTactics = "Pressure Tactics"
+    case artisticVision = "Artistic Vision"
+    case sacrificialBeauty = "Sacrificial Beauty"
+    case aestheticJudgment = "Aesthetic Judgment"
+    case adaptiveLearning = "Adaptive Learning"
+    case systemicAnalysis = "Systemic Analysis"
+    
+    var description: String {
+        switch self {
+        case .berserkerRage: return "Gets stronger when behind in material"
+        case .sacrificialFrenzy: return "Loves spectacular sacrifices"
+        case .deepCalculation: return "Calculates many moves ahead"
+        case .endgameMastery: return "Excels in simplified positions"
+        case .patternRecognition: return "Recognizes complex patterns quickly"
+        case .randomness: return "Makes unpredictable moves"
+        case .unpredictability: return "Changes style mid-game"
+        case .chaosTheory: return "Thrives in complex positions"
+        case .timeManagement: return "Uses time pressure as a weapon"
+        case .speedCalculation: return "Calculates quickly under pressure"
+        case .pressureTactics: return "Applies psychological pressure"
+        case .artisticVision: return "Sees beautiful combinations"
+        case .sacrificialBeauty: return "Sacrifices for aesthetic reasons"
+        case .aestheticJudgment: return "Values beauty over material"
+        case .adaptiveLearning: return "Learns opponent patterns quickly"
+        case .systemicAnalysis: return "Analyzes positions systematically"
+        }
+    }
+}
+
+// MARK: - Weaknesses
+enum Weakness: String, Codable, CaseIterable {
+    case overextension = "Overextension"
+    case materialBlindness = "Material Blindness"
+    case overthinking = "Overthinking"
+    case timeManagement = "Poor Time Management"
+    case inconsistency = "Inconsistency"
+    case selfDestruction = "Self-Destruction"
+    case lackOfPlan = "Lack of Long-term Plan"
+    case impatience = "Impatience"
+    case superficialAnalysis = "Superficial Analysis"
+    case impractical = "Impractical Play"
+    case materialistic = "Too Materialistic"
+    case resultOriented = "Results Over Process"
+    case predictability = "Predictability"
+    case humanIntuition = "Lacks Human Intuition"
+    
+    var description: String {
+        switch self {
+        case .overextension: return "Tends to overextend position"
+        case .materialBlindness: return "Ignores material considerations"
+        case .overthinking: return "Analyzes too deeply, wastes time"
+        case .timeManagement: return "Poor at managing clock"
+        case .inconsistency: return "Play quality varies wildly"
+        case .selfDestruction: return "Sometimes self-destructs"
+        case .lackOfPlan: return "No long-term planning"
+        case .impatience: return "Makes hasty decisions"
+        case .superficialAnalysis: return "Doesn't analyze deeply enough"
+        case .impractical: return "Chooses beauty over practicality"
+        case .materialistic: return "Hoards material unnecessarily"
+        case .resultOriented: return "Focuses too much on results"
+        case .predictability: return "Playing patterns are predictable"
+        case .humanIntuition: return "Misses intuitive human moves"
+        }
+    }
+}
+
+// MARK: - Playing Quirks
+enum PlayingQuirk: String, Codable, CaseIterable {
+    case alwaysAttacks = "Always Attacks"
+    case ignoresSafety = "Ignores Safety"
+    case lovesComplications = "Loves Complications"
+    case perfectionist = "Perfectionist"
+    case analyzesEverything = "Analyzes Everything"
+    case respectsOpponents = "Respects Opponents"
+    case randomMoves = "Random Moves"
+    case ignoresTheory = "Ignores Theory"
+    case changesStyle = "Changes Style"
+    case playsQuickly = "Plays Quickly"
+    case lovesTimeScrambles = "Loves Time Scrambles"
+    case pressuresOpponent = "Pressures Opponent"
+    case lovesBeauty = "Loves Beauty"
+    case sacrificesForArt = "Sacrifices for Art"
+    case emotionalPlay = "Emotional Play"
+    case logical = "Logical"
+    case adaptable = "Adaptable"
+    case systematic = "Systematic"
+    
+    var description: String {
+        switch self {
+        case .alwaysAttacks: return "Prefers attacking moves"
+        case .ignoresSafety: return "Ignores king safety"
+        case .lovesComplications: return "Seeks complex positions"
+        case .perfectionist: return "Seeks perfect moves"
+        case .analyzesEverything: return "Analyzes all possibilities"
+        case .respectsOpponents: return "Shows respect to opponents"
+        case .randomMoves: return "Makes unexpected moves"
+        case .ignoresTheory: return "Avoids theoretical lines"
+        case .changesStyle: return "Adapts style during game"
+        case .playsQuickly: return "Makes moves quickly"
+        case .lovesTimeScrambles: return "Thrives under time pressure"
+        case .pressuresOpponent: return "Uses psychological pressure"
+        case .lovesBeauty: return "Values aesthetic moves"
+        case .sacrificesForArt: return "Sacrifices for beauty"
+        case .emotionalPlay: return "Plays with emotion"
+        case .logical: return "Makes logical decisions"
+        case .adaptable: return "Adapts to situations"
+        case .systematic: return "Uses systematic approach"
+        }
     }
 }
 
